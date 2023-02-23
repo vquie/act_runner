@@ -1,0 +1,35 @@
+---
+pipeline:
+  build:
+    image: gitea.intern.quiering.com/images/vq-build:1.0.0
+    secrets:
+      - CUSTOM_REGISTRY_USERNAME
+      - CUSTOM_REGISTRY_PASSWORD
+    commands:
+      - while ! docker ps -a; do sleep 1; done
+      - docker info
+      - make login
+      - make release
+    volumes:
+      - "certs:/certs"
+      - "sock:/var/run"
+
+services:
+  dind:
+    image: docker:20.10.23-dind
+    privileged: true
+    environment:
+      DOCKER_DRIVER: "overlay2"
+      DOCKER_TLS_CERTDIR: "/certs"
+    volumes:
+      - "certs:/certs"
+      - "sock:/var/run"
+
+when:
+  branch:
+    include:
+      - master
+    exclude:
+      - renovate/*
+  event:
+    - push
