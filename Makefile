@@ -60,7 +60,6 @@ tag:
 	if [ -n "$(CI_COMMIT_TAG)" ];       then docker tag $(REPO):latest $(REPO):$(CI_COMMIT_TAG); fi
 	if [ -n "$(CI_COMMIT_REF_SLUG)" ];  then docker tag $(REPO):latest $(REPO):$(CI_COMMIT_REF_SLUG); fi
 	if [ -n "$(CI_COMMIT_REF_SLUG)" ] && [ -n "$(CI_COMMIT_SHORT_SHA)" ]; then docker tag $(REPO):latest $(REPO):$(CI_COMMIT_REF_SLUG)-$(CI_COMMIT_SHORT_SHA); fi
-	if [ -n "$(VERSION)" ]; then docker tag $(REPO):latest $(REPO):$(VERSION); fi
 
 ## push the latest build to the registry
 .PHONY: push
@@ -70,7 +69,6 @@ push:
 	if [ -n "$(CI_COMMIT_TAG)" ];       then docker push $(REPO):$(CI_COMMIT_TAG); fi
 	if [ -n "$(CI_COMMIT_REF_SLUG)" ];  then docker push $(REPO):$(CI_COMMIT_REF_SLUG); fi
 	if [ -n "$(CI_COMMIT_REF_SLUG)" ] && [ -n "$(CI_COMMIT_SHORT_SHA)" ]; then docker push $(REPO):$(CI_COMMIT_REF_SLUG)-$(CI_COMMIT_SHORT_SHA); fi
-	if [ -n "$(VERSION)" ]; then docker push $(REPO):$(VERSION); fi
 
 ## open a shell to the latest build
 .PHONY: shell
