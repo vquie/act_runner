@@ -1,5 +1,5 @@
 # build
-FROM --platform=linux/amd64 golang:1.20.1 AS builder
+FROM golang:1.20.1 AS builder
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -12,7 +12,7 @@ WORKDIR /opt/act_runner
 RUN make build
 
 # final image
-FROM --platform=linux/amd64 debian:11.6-slim
+FROM debian:11.6-slim
 
 RUN apt-get update && apt-get install -y \
     ca-certificates \
