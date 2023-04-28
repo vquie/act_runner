@@ -1,19 +1,17 @@
-ARG TARGETARCH
-ARG VERSION
-
 FROM debian:11.6-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    curl \
-    wget && \
+    curl && \
     curl -fsSL get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -fsSL https://gitea.com/gitea/act_runner/releases/download/v${ACT_RUNNER_VERSION}/act_runner-${ACT_RUNNER_VERSION}-linux-${TARGETARCH} -o /usr/local/bin/act_runner
+ARG VERSION
+
+RUN curl -fsSL "https://gitea.com/gitea/act_runner/releases/download/v${VERSION}/act_runner-${VERSION}-linux-amd64" -o /usr/local/bin/act_runner
 
 COPY ./rootfs /
 
