@@ -1,8 +1,7 @@
 ARG TARGETARCH
-ARG BUILDPLATFORM
 ARG VERSION
 
-FROM --platform=${BUILDPLATFORM} debian:11.6-slim
+FROM debian:11.6-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
